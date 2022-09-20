@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const {User, Reaction, Thought} = require('../../models');
 const {getUsers, createUser, getUserById, deleteUser, updateUser} = require('../../controllers/userControllers');
 
 router.route('/')

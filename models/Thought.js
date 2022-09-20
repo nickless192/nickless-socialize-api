@@ -1,14 +1,14 @@
 const {Schema, model} = require('mongoose');
 
 const ThoughtSchema = new Schema({
-        thoughtTest: {
+        thoughtText: {
             type: String
         },
-        creatAt: {
+        createdAt: {
             type: Date,
             default: Date.now()
         },
-        username: {
+        userId: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
