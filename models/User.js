@@ -1,20 +1,29 @@
 const {Schema, model} = require('mongoose');
+const {isEmail} = require('../utils/validators');
 
 const UserSchema = new Schema({
     username: {
-        type: String
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
     },
     email: {
-        type: String
+        type: String,
+        required: true,
+        unique: true,
+        validate: isEmail
     },
-    thoughts: [{
-        type: Schema.Types.ObjectId,
-        ref: 'thought'
-    }],
+    thoughts: [
+            {
+            type: Schema.Types.ObjectId,
+            ref: 'Thought'
+        }
+    ],
     friends: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'friends'
+            ref: 'User'
         }
     ]
 }, {
@@ -25,6 +34,10 @@ const UserSchema = new Schema({
     id: false
 }
 );
+
+UserSchema.virtual('friendsCount', function() {
+    return this.friends.length;
+});
 
 const User = model('User', UserSchema);
 

@@ -3,9 +3,17 @@ const {User, Thought, Reaction} = require('../models');
 const userControllers = {
     getUsers(req, res) {
         User.find({})
-        .then(dbUserData => {
-            res.json(dbUserData);
+        .populate({
+            path: 'thoughts',
+            select: '-__v'
         })
+        .populate({
+            path: 'friends',
+            select: '-__v'
+        })
+        .select('-__v')
+        .sort({_id: -1})
+        .then(dbUserData => res.json(dbUserData))
         .catch(err => res.status(400).json(err));
     },
     getUserById({params}, res) {
