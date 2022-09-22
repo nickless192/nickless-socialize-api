@@ -23,6 +23,7 @@ const ReactionSchema = new Schema({
     }
 }, {
     toJSON: {
+        // enable getters to format timestamps
         getters: true
     },
     id: false
@@ -47,13 +48,15 @@ const ThoughtSchema = new Schema({
         reactions: [ReactionSchema]
 }, {
     toJSON: {
+        // enable getters to format timestamps and virtuals to return the reactionCount
         virtuals: true,
         getters: true
     },
     id: false
 });
 
-ThoughtSchema.virtual('reactionCount', function() {
+// virtual to return the number of reactions associated to the thought
+ThoughtSchema.virtual('reactionCount').get(function() {
     return this.reactions.length;
 });
 

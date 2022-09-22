@@ -12,7 +12,8 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        validate: isEmail
+        // run email validation, return message if validation fails
+        validate: [isEmail, 'Wrong email format']
     },
     thoughts: [
             {
@@ -28,6 +29,7 @@ const UserSchema = new Schema({
     ]
 }, {
     toJSON: {
+        // virtual to return the number of friends associated to the user
         virtuals: true,
         getters: true
     },
@@ -35,7 +37,7 @@ const UserSchema = new Schema({
 }
 );
 
-UserSchema.virtual('friendsCount', function() {
+UserSchema.virtual('friendsCount').get(function() {
     return this.friends.length;
 });
 
